@@ -32,8 +32,15 @@ while True:
         opcion = int(input("Ingresa una opción (1-5): "))
         match opcion:
             case 1:
+                print("\nSu saldo actual es de RD$", saldo)
             case 2:
+                print("\nHa seleccionado retirar dinero")
             case 3:
+                print("\nHa seleccionado retirar Depositar dinero")
             case 4:
+                print("\nHa seleccionado transferir a terceros")
             case 5:
+                print("\nCerrando sesión...")
+                exit()
             case _:
+                print("\nOpción inválida. Por favor, seleccione una opción válida (1-5).")
