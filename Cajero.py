@@ -41,6 +41,7 @@ while True:
                 print("\nHa seleccionado transferir a terceros")
             case 5:
                 print("\nCerrando sesión...")
+                print("Saliendo del sistema...")
                 exit()
             case _:
                 print("\nOpción inválida. Por favor, seleccione una opción válida (1-5).")
