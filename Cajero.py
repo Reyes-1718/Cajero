@@ -9,7 +9,7 @@ RegistroUsuarios = {
 
 while True:
     if inicio == False:
-        print("===== AUTENTICACION =====")
+        print("\n===== AUTENTICACION =====")
         print("Bienvenido al cajero automático")
         usuario = input("Ingresa tu usuario: ")
         clave = input("Ingresa tu clave: ")
@@ -19,4 +19,4 @@ while True:
             inicio = True
         else:
             print("Credenciales incorrectas")
-            continue
+            
