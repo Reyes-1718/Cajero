@@ -20,3 +20,20 @@ while True:
         else:
             print("Credenciales incorrectas")
             
+while True:
+        print("\n===== Cajero Automático =====")
+        print("Opciones disponibles:")
+        print("1. Consultar saldo")
+        print("2. Retirar dinero")
+        print("3. Depositar dinero")
+        print("4. Transferir a terceros")
+        print("5. Cerrar sesión")
+        saldo = 5000
+        opcion = int(input("Ingresa una opción (1-5): "))
+        match opcion:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case _:
