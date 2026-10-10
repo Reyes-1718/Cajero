@@ -19,6 +19,7 @@ while True:
             inicio = True
         else:
             print("Credenciales incorrectas")
+            continue
             
     while True:
         print("\n===== Cajero Automático =====")
