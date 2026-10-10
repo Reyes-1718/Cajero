@@ -4,7 +4,7 @@ RegistroUsuarios = {
     "Nathalia": "1111",
     "Miguel": "2222",
     "Laura": "3333",
-    "José": "4444"
+    "Jose": "4444"
 }
 
 while True:
@@ -30,7 +30,11 @@ while True:
         print("4. Transferir a terceros")
         print("5. Cerrar sesión")
         saldo = 5000
-        opcion = int(input("Ingresa una opción (1-5): "))
+        try:
+            opcion = int(input("Ingresa una opción (1-5): "))
+        except ValueError:
+            print("\nOpción inválida. Por favor, seleccione una opción válida (1-5).")
+            continue
         match opcion:
             case 1:
                 print("\nSu saldo actual es de RD$", saldo)
