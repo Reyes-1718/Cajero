@@ -1,11 +1,12 @@
 inicio = False
 RegistroUsuarios = {
-    "Algoritmo": "1234",
-    "Nathalia": "1111",
-    "Miguel": "2222",
-    "Laura": "3333",
-    "Jose": "4444"
+    "Algoritmo": {"clave": "1234", "saldo":5000},
+    "Nathalia": {"clave": "1111", "saldo":6000},
+    "Miguel": {"clave": "2222", "saldo":7000},
+    "Laura": {"clave": "3333", "saldo":8000},
+    "Jose": {"clave": "4444", "saldo":9000}
 }
+saldo = RegistroUsuarios[usuario]["saldo"]
 
 while True:
     if inicio == False:
@@ -14,7 +15,7 @@ while True:
         usuario = input("Ingresa tu usuario: ")
         clave = input("Ingresa tu clave: ")
 
-        if usuario in RegistroUsuarios and RegistroUsuarios[usuario] == clave:
+        if usuario in RegistroUsuarios and RegistroUsuarios[usuario]["clave"] == clave:
             print("Bienvenido", usuario)
             inicio = True
         else:
@@ -29,7 +30,7 @@ while True:
         print("3. Depositar dinero")
         print("4. Transferir a terceros")
         print("5. Cerrar sesión")
-        saldo = 5000
+
         try:
             opcion = int(input("Ingresa una opción (1-5): "))
         except ValueError:
