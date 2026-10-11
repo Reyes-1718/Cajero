@@ -1,10 +1,49 @@
+def transferir(usuario):
+    print("Ha seleccionado transferir")
+    cuenta = input("Digite la cuenta a transferir: ")
+
+    if len(cuenta) == 9 and cuenta.isdigit():
+
+        for destino in RegistroUsuarios:
+
+            if RegistroUsuarios[destino]["cuenta"] == cuenta:
+
+                if destino == usuario:
+                    print("No puede transferirse dinero a usted mismo")
+                    return
+
+                try:
+                    monto = int(input("Digite el monto a transferir: "))
+
+                    if monto <= 0:
+                        print("El monto ingresado no es válido")
+
+                    elif monto > RegistroUsuarios[usuario]["saldo"]:
+                        print("No cuenta con saldo suficiente")
+
+                    else:
+                        RegistroUsuarios[usuario]["saldo"] -= monto
+                        RegistroUsuarios[destino]["saldo"] += monto
+
+                        print(f"Transferencia de RD$ {monto} realizada a {destino}")
+
+                except ValueError:
+                    print("El monto ingresado no es válido")
+
+                return
+
+        print("La cuenta no existe")
+
+    else:
+        print("El número de cuenta no es válido")
+
 inicio = False
 RegistroUsuarios = {
-    "Algoritmo": {"clave": "1234", "saldo":5000},
-    "Nathalia": {"clave": "1111", "saldo":6000},
-    "Miguel": {"clave": "2222", "saldo":7000},
-    "Laura": {"clave": "3333", "saldo":8000},
-    "Jose": {"clave": "4444", "saldo":9000}
+    "Algoritmo": {"clave": "1234", "saldo":5000, "cuenta": "123456789"},
+    "Nathalia": {"clave": "1111", "saldo":6000, "cuenta": "987654321"},
+    "Miguel": {"clave": "2222", "saldo":7000, "cuenta": "456789123"},
+    "Laura": {"clave": "3333", "saldo":8000, "cuenta": "321654987"},
+    "Jose": {"clave": "4444", "saldo":9000, "cuenta": "789456123"}
 }
 
 
@@ -16,7 +55,7 @@ while True:
         clave = input("Ingresa tu clave: ")
 
         if usuario in RegistroUsuarios and RegistroUsuarios[usuario]["clave"] == clave:
-            print("Bienvenido", usuario)
+            print("\nBienvenido", usuario)
             inicio = True
         else:
             print("Credenciales incorrectas")
@@ -46,9 +85,11 @@ while True:
                 print("\nHa seleccionado retirar Depositar dinero")
             case 4:
                 print("\nHa seleccionado transferir a terceros")
+                transferir(usuario)
             case 5:
                 print("\nCerrando sesión...")
                 print("Saliendo del sistema...")
-                exit()
+                inicio = False
+                break
             case _:
                 print("\nOpción inválida. Por favor, seleccione una opción válida (1-5).")
