@@ -144,7 +144,6 @@ while True:
                 transferir(usuario)
             case 5:
                 print("\nCerrando sesión...")
-                print("Saliendo del sistema...")
                 inicio = False
                 break
             case _:
