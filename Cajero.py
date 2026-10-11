@@ -1,41 +1,98 @@
+def retirar(usuario):
+    print("\nHa seleccionado retirar dinero")
+    try:
+        monto = int(input("Digite el monto a retirar: "))
+
+        if monto <= 0:
+            print("El monto ingresado no es válido")
+        elif monto > RegistroUsuarios[usuario]["saldo"]:
+            print("No cuenta con saldo suficiente")
+        else:
+            RegistroUsuarios[usuario]["saldo"] -= monto
+            print(f"Retiro de RD$ {monto} realizado con éxito")
+
+    except ValueError:
+        print("El monto ingresado no es válido")
+def depositar(usuario):
+    print("\nHa seleccionado depositar dinero")
+    try:
+        monto = int(input("Digite el monto a depositar: "))
+
+        if monto <= 0:
+            print("El monto ingresado no es válido")
+        else:
+            RegistroUsuarios[usuario]["saldo"] += monto
+            print(f"Depósito de RD$ {monto} realizado con éxito")
+
+    except ValueError:
+        print("El monto ingresado no es válido")
 def transferir(usuario):
-    print("Ha seleccionado transferir")
-    cuenta = input("Digite la cuenta a transferir: ")
+    while True:
+        print("\n===== TRANSFERENCIAS =====")
+        print("1. Ver cuentas disponibles")
+        print("2. Transferir a terceros")
+        print("3. Volver al menú principal")
 
-    if len(cuenta) == 9 and cuenta.isdigit():
+        try:
+            opcion = int(input("Seleccione una opción (1-3): "))
+        except ValueError:
+            print("Opción inválida.")
+            continue
 
-        for destino in RegistroUsuarios:
+        match opcion:
+            case 1:
+                print("\n===== CUENTAS DISPONIBLES =====")
 
-            if RegistroUsuarios[destino]["cuenta"] == cuenta:
+                for nombre, datos in RegistroUsuarios.items():
+                    if nombre != usuario:
+                        print(f"Nombre: {nombre} | Cuenta: {datos['cuenta']}")
 
-                if destino == usuario:
-                    print("No puede transferirse dinero a usted mismo")
-                    return
+            case 2:
+                print("\nHa seleccionado transferir")
+                cuenta = input("Digite la cuenta a transferir: ")
 
-                try:
-                    monto = int(input("Digite el monto a transferir: "))
+                if len(cuenta) == 9 and cuenta.isdigit():
 
-                    if monto <= 0:
-                        print("El monto ingresado no es válido")
+                    for destino in RegistroUsuarios:
 
-                    elif monto > RegistroUsuarios[usuario]["saldo"]:
-                        print("No cuenta con saldo suficiente")
+                        if RegistroUsuarios[destino]["cuenta"] == cuenta:
+
+                            if destino == usuario:
+                                print("No puede transferirse dinero a usted mismo")
+                                break
+
+                            try:
+                                monto = int(input("Digite el monto a transferir: "))
+
+                                if monto <= 0:
+                                    print("El monto ingresado no es válido")
+
+                                elif monto > RegistroUsuarios[usuario]["saldo"]:
+                                    print("No cuenta con saldo suficiente")
+
+                                else:
+                                    RegistroUsuarios[usuario]["saldo"] -= monto
+                                    RegistroUsuarios[destino]["saldo"] += monto
+
+                                    print(f"Transferencia de RD$ {monto} realizada a {destino}")
+
+                            except ValueError:
+                                print("El monto ingresado no es válido")
+
+                            break
 
                     else:
-                        RegistroUsuarios[usuario]["saldo"] -= monto
-                        RegistroUsuarios[destino]["saldo"] += monto
+                        print("La cuenta no existe")
 
-                        print(f"Transferencia de RD$ {monto} realizada a {destino}")
+                else:
+                    print("El número de cuenta no es válido")
 
-                except ValueError:
-                    print("El monto ingresado no es válido")
-
+            case 3:
+                print("\nRegresando al menú principal...")
                 return
 
-        print("La cuenta no existe")
-
-    else:
-        print("El número de cuenta no es válido")
+            case _:
+                print("Opción inválida. Seleccione una opción válida (1-3).")
 
 inicio = False
 RegistroUsuarios = {
@@ -80,11 +137,10 @@ while True:
                 saldo = RegistroUsuarios[usuario]["saldo"]
                 print("\nSu saldo actual es de RD$", saldo)
             case 2:
-                print("\nHa seleccionado retirar dinero")
+                retirar(usuario)
             case 3:
-                print("\nHa seleccionado retirar Depositar dinero")
+                depositar(usuario)
             case 4:
-                print("\nHa seleccionado transferir a terceros")
                 transferir(usuario)
             case 5:
                 print("\nCerrando sesión...")
