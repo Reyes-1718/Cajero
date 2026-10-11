@@ -1,66 +1,154 @@
+def autenticar():
+    print("\n===== AUTENTICACION =====")
+    print("Bienvenido al cajero automático")
+
+    usuario = input("Ingresa tu usuario: ")
+
+    if usuario not in RegistroUsuarios:
+        print("Credenciales incorrectas")
+        return None
+
+    if RegistroUsuarios[usuario]["bloqueado"]:
+        print("Su cuenta está bloqueada")
+        return None
+
+    intentos = 0
+
+    while intentos < 3:
+        clave = input("Ingresa tu clave: ")
+
+        if RegistroUsuarios[usuario]["clave"] == clave:
+            print("\nBienvenido", usuario)
+            return usuario
+
+        intentos += 1
+        print("Credenciales incorrectas")
+
+        if intentos < 3:
+            print(f"Le quedan {3 - intentos} intentos")
+        else:
+            RegistroUsuarios[usuario]["bloqueado"] = True
+            print("Su cuenta ha sido bloqueada por exceder los intentos permitidos")
+
+    return None
+def consultar_saldo(usuario):
+    saldo = RegistroUsuarios[usuario]["saldo"]
+    print("\nSu saldo actual es de RD$", saldo)
+def retirar(usuario):
+    print("\nHa seleccionado retirar dinero")
+    try:
+        monto = int(input("Digite el monto a retirar: "))
+
+        if monto <= 0:
+            print("El monto ingresado no es válido")
+        elif monto > RegistroUsuarios[usuario]["saldo"]:
+            print("No cuenta con saldo suficiente")
+        else:
+            RegistroUsuarios[usuario]["saldo"] -= monto
+            print(f"Retiro de RD$ {monto} realizado con éxito")
+
+    except ValueError:
+        print("El monto ingresado no es válido")
+def depositar(usuario):
+    print("\nHa seleccionado depositar dinero")
+    try:
+        monto = int(input("Digite el monto a depositar: "))
+
+        if monto <= 0:
+            print("El monto ingresado no es válido")
+        else:
+            RegistroUsuarios[usuario]["saldo"] += monto
+            print(f"Depósito de RD$ {monto} realizado con éxito")
+
+    except ValueError:
+        print("El monto ingresado no es válido")
 def transferir(usuario):
-    print("Ha seleccionado transferir")
-    cuenta = input("Digite la cuenta a transferir: ")
+    while True:
+        print("\n===== TRANSFERENCIAS =====")
+        print("1. Ver cuentas disponibles")
+        print("2. Transferir a terceros")
+        print("3. Volver al menú principal")
 
-    if len(cuenta) == 9 and cuenta.isdigit():
+        try:
+            opcion = int(input("Seleccione una opción (1-3): "))
+        except ValueError:
+            print("Opción inválida.")
+            continue
 
-        for destino in RegistroUsuarios:
+        match opcion:
+            case 1:
+                print("\n===== CUENTAS DISPONIBLES =====")
 
-            if RegistroUsuarios[destino]["cuenta"] == cuenta:
+                for nombre, datos in RegistroUsuarios.items():
+                    if nombre != usuario:
+                        print(f"Nombre: {nombre} | Cuenta: {datos['cuenta']}")
 
-                if destino == usuario:
-                    print("No puede transferirse dinero a usted mismo")
-                    return
+            case 2:
+                print("\nHa seleccionado transferir")
+                cuenta = input("Digite la cuenta a transferir: ")
 
-                try:
-                    monto = int(input("Digite el monto a transferir: "))
+                if len(cuenta) == 9 and cuenta.isdigit():
 
-                    if monto <= 0:
-                        print("El monto ingresado no es válido")
+                    for destino in RegistroUsuarios:
 
-                    elif monto > RegistroUsuarios[usuario]["saldo"]:
-                        print("No cuenta con saldo suficiente")
+                        if RegistroUsuarios[destino]["cuenta"] == cuenta:
+
+                            if destino == usuario:
+                                print("No puede transferirse dinero a usted mismo")
+                                break
+
+                            try:
+                                monto = int(input("Digite el monto a transferir: "))
+
+                                if monto <= 0:
+                                    print("El monto ingresado no es válido")
+
+                                elif monto > RegistroUsuarios[usuario]["saldo"]:
+                                    print("No cuenta con saldo suficiente")
+
+                                else:
+                                    RegistroUsuarios[usuario]["saldo"] -= monto
+                                    RegistroUsuarios[destino]["saldo"] += monto
+
+                                    print(f"Transferencia de RD$ {monto} realizada a {destino}")
+
+                            except ValueError:
+                                print("El monto ingresado no es válido")
+
+                            break
 
                     else:
-                        RegistroUsuarios[usuario]["saldo"] -= monto
-                        RegistroUsuarios[destino]["saldo"] += monto
+                        print("La cuenta no existe")
 
-                        print(f"Transferencia de RD$ {monto} realizada a {destino}")
+                else:
+                    print("El número de cuenta no es válido")
 
-                except ValueError:
-                    print("El monto ingresado no es válido")
-
+            case 3:
+                print("\nRegresando al menú principal...")
                 return
 
-        print("La cuenta no existe")
-
-    else:
-        print("El número de cuenta no es válido")
+            case _:
+                print("Opción inválida. Seleccione una opción válida (1-3).")
 
 inicio = False
 RegistroUsuarios = {
-    "Algoritmo": {"clave": "1234", "saldo":5000, "cuenta": "123456789"},
-    "Nathalia": {"clave": "1111", "saldo":6000, "cuenta": "987654321"},
-    "Miguel": {"clave": "2222", "saldo":7000, "cuenta": "456789123"},
-    "Laura": {"clave": "3333", "saldo":8000, "cuenta": "321654987"},
-    "Jose": {"clave": "4444", "saldo":9000, "cuenta": "789456123"}
+    "Algoritmo": {"clave": "1234", "saldo": 5000, "cuenta": "123456789", "bloqueado": False},
+    "Nathalia": {"clave": "1111", "saldo": 6000, "cuenta": "987654321", "bloqueado": False},
+    "Miguel": {"clave": "2222", "saldo": 7000, "cuenta": "456789123", "bloqueado": False},
+    "Laura": {"clave": "3333", "saldo": 8000, "cuenta": "321654987", "bloqueado": False},
+    "Jose": {"clave": "4444", "saldo": 9000, "cuenta": "789456123", "bloqueado": False}
 }
 
 
 while True:
     if inicio == False:
-        print("\n===== AUTENTICACION =====")
-        print("Bienvenido al cajero automático")
-        usuario = input("Ingresa tu usuario: ")
-        clave = input("Ingresa tu clave: ")
+        usuario = autenticar()
 
-        if usuario in RegistroUsuarios and RegistroUsuarios[usuario]["clave"] == clave:
-            print("\nBienvenido", usuario)
-            inicio = True
-        else:
-            print("Credenciales incorrectas")
+        if usuario is None:
             continue
-            
+
+        inicio = True
+
     while True:
         print("\n===== Cajero Automático =====")
         print("Opciones disponibles:")
@@ -77,18 +165,15 @@ while True:
             continue
         match opcion:
             case 1:
-                saldo = RegistroUsuarios[usuario]["saldo"]
-                print("\nSu saldo actual es de RD$", saldo)
+                consultar_saldo(usuario)
             case 2:
-                print("\nHa seleccionado retirar dinero")
+                retirar(usuario)
             case 3:
-                print("\nHa seleccionado retirar Depositar dinero")
+                depositar(usuario)
             case 4:
-                print("\nHa seleccionado transferir a terceros")
                 transferir(usuario)
             case 5:
                 print("\nCerrando sesión...")
-                print("Saliendo del sistema...")
                 inicio = False
                 break
             case _:
