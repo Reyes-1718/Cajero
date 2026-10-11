@@ -1,0 +1,82 @@
+flowchart TD
+    A([Inicio]) --> B[Inicializar RegistroUsuarios e inicio = False]
+    B --> C{¿Sesión iniciada?}
+    C -- No --> D[/Solicitar nombre de usuario/]
+    D --> E{¿Usuario registrado?}
+    E -- No --> F[Mostrar credenciales incorrectas]
+    F --> C
+    E -- Sí --> G{¿Cuenta bloqueada?}
+    G -- Sí --> H[Mostrar cuenta bloqueada]
+    H --> C
+    G -- No --> I[Inicializar intentos = 0]
+    I --> J[/Solicitar clave/]
+    J --> K{¿Clave correcta?}
+    K -- Sí --> L[Iniciar sesión y mostrar bienvenida]
+    K -- No --> M[Incrementar intentos]
+    M --> N{¿Intentos menores que 3?}
+    N -- Sí --> O[Mostrar intentos restantes]
+    O --> J
+    N -- No --> P[Marcar cuenta como bloqueada]
+    P --> Q[Mostrar mensaje de bloqueo]
+    Q --> C
+    L --> R[Mostrar menú principal]
+    C -- Sí --> R
+    R --> S[/Leer opción del 1 al 5/]
+    S --> T{¿Opción válida?}
+    T -- No --> U[Mostrar opción inválida]
+    U --> R
+    T -- Sí --> V{¿Qué opción eligió?}
+
+    V -- 1 --> W[Consultar saldo]
+    W --> W1[Mostrar saldo actual en RD$]
+    W1 --> R
+
+    V -- 2 --> X[/Solicitar monto de retiro/]
+    X --> X1{¿Monto entero y positivo?}
+    X1 -- No --> X2[Mostrar monto inválido]
+    X2 --> R
+    X1 -- Sí --> X3{¿Saldo suficiente?}
+    X3 -- No --> X4[Mostrar saldo insuficiente]
+    X4 --> R
+    X3 -- Sí --> X5[Restar monto al saldo y confirmar retiro]
+    X5 --> R
+
+    V -- 3 --> Y[/Solicitar monto de depósito/]
+    Y --> Y1{¿Monto entero y positivo?}
+    Y1 -- No --> Y2[Mostrar monto inválido]
+    Y2 --> R
+    Y1 -- Sí --> Y3[Sumar monto al saldo y confirmar depósito]
+    Y3 --> R
+
+    V -- 4 --> Z[Mostrar menú de transferencias]
+    Z --> Z1[/Leer opción del 1 al 3/]
+    Z1 --> Z2{¿Qué opción eligió?}
+    Z2 -- 1 --> Z3[Mostrar nombre y cuenta de otros usuarios]
+    Z3 --> Z
+    Z2 -- 2 --> Z4[/Solicitar número de cuenta destino/]
+    Z4 --> Z5{¿Tiene 9 dígitos numéricos?}
+    Z5 -- No --> Z6[Mostrar número de cuenta inválido]
+    Z6 --> Z
+    Z5 -- Sí --> Z7{¿Cuenta existe?}
+    Z7 -- No --> Z8[Mostrar cuenta inexistente]
+    Z8 --> Z
+    Z7 -- Sí --> Z9{¿Es la misma cuenta?}
+    Z9 -- Sí --> Z10[Rechazar autotransferencia]
+    Z10 --> Z
+    Z9 -- No --> Z11[/Solicitar monto a transferir/]
+    Z11 --> Z12{¿Monto entero y positivo?}
+    Z12 -- No --> Z13[Mostrar monto inválido]
+    Z13 --> Z
+    Z12 -- Sí --> Z14{¿Saldo suficiente?}
+    Z14 -- No --> Z15[Mostrar saldo insuficiente]
+    Z15 --> Z
+    Z14 -- Sí --> Z16[Descontar del origen y acreditar al destino]
+    Z16 --> Z17[Confirmar transferencia]
+    Z17 --> Z
+    Z2 -- 3 --> R
+    Z2 -- Otra o no numérica --> Z18[Mostrar opción inválida]
+    Z18 --> Z
+
+    V -- 5 --> AA[Mostrar cierre de sesión]
+    AA --> AB[Establecer inicio = False]
+    AB --> C
