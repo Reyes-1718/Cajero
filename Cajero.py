@@ -6,7 +6,7 @@ RegistroUsuarios = {
     "Laura": {"clave": "3333", "saldo":8000},
     "Jose": {"clave": "4444", "saldo":9000}
 }
-saldo = RegistroUsuarios[usuario]["saldo"]
+
 
 while True:
     if inicio == False:
@@ -38,6 +38,7 @@ while True:
             continue
         match opcion:
             case 1:
+                saldo = RegistroUsuarios[usuario]["saldo"]
                 print("\nSu saldo actual es de RD$", saldo)
             case 2:
                 print("\nHa seleccionado retirar dinero")
