@@ -1,3 +1,6 @@
+def consultar_saldo(usuario):
+    saldo = RegistroUsuarios[usuario]["saldo"]
+    print("\nSu saldo actual es de RD$", saldo)
 def retirar(usuario):
     print("\nHa seleccionado retirar dinero")
     try:
@@ -134,8 +137,7 @@ while True:
             continue
         match opcion:
             case 1:
-                saldo = RegistroUsuarios[usuario]["saldo"]
-                print("\nSu saldo actual es de RD$", saldo)
+                consultar_saldo(usuario)
             case 2:
                 retirar(usuario)
             case 3:
