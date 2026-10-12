@@ -1,8 +1,11 @@
 flowchart TD
-    A([Inicio]) --> B[Inicializar RegistroUsuarios e inicio = False]
-    B --> C{¿Sesión iniciada?}
-    C -- No --> D[/Solicitar nombre de usuario/]
-    D --> E{¿Usuario registrado?}
+    A([Inicio]) --> B[Inicializar RegistroUsuarios]
+    B --> C[Mostrar pantalla de autenticación]
+    C --> D[/Solicitar nombre de usuario/]
+    D --> D1{¿Escribió salir?}
+    D1 -- Sí --> D2[Mostrar despedida]
+    D2 --> FIN([Fin])
+    D1 -- No --> E{¿Usuario registrado?}
     E -- No --> F[Mostrar credenciales incorrectas]
     F --> C
     E -- Sí --> G{¿Cuenta bloqueada?}
@@ -20,7 +23,6 @@ flowchart TD
     P --> Q[Mostrar mensaje de bloqueo]
     Q --> C
     L --> R[Mostrar menú principal]
-    C -- Sí --> R
     R --> S[/Leer opción del 1 al 5/]
     S --> T{¿Opción válida?}
     T -- No --> U[Mostrar opción inválida]
@@ -78,5 +80,4 @@ flowchart TD
     Z18 --> Z
 
     V -- 5 --> AA[Mostrar cierre de sesión]
-    AA --> AB[Establecer inicio = False]
-    AB --> C
+    AA --> C

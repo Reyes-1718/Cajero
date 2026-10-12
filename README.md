@@ -17,6 +17,7 @@ El objetivo es practicar lo básico de la programación: funciones, diccionarios
 - Permite hasta tres intentos fallidos cada vez que se usa la función de autenticación.
 - Bloquea la cuenta si se superan los tres intentos.
 - Si los datos son correctos, muestra el menú principal.
+- Permite escribir `salir` en lugar del usuario para cerrar el programa.
 
 ### 2. Consultar el saldo
 - Muestra el dinero disponible en la cuenta del usuario.
@@ -48,6 +49,10 @@ El objetivo es practicar lo básico de la programación: funciones, diccionarios
 - Cierra la sesión actual.
 - Vuelve a la pantalla de inicio para que otra persona pueda entrar.
 
+### 7. Salir del programa
+- En la pantalla de inicio, escribe `salir` (da igual si usas mayúsculas o minúsculas).
+- También puedes presionar `Ctrl+C` en cualquier momento: el programa se cierra con un mensaje de despedida, sin mostrar errores.
+
 ## Herramientas usadas
 
 - **Lenguaje:** Python 3.10 o superior.
@@ -63,24 +68,26 @@ Descarga e instala Python desde su página oficial:
 
 https://www.python.org/downloads/
 
-### Paso 2. Guardar el código
+### Paso 2. Descargar el código
 
-Guarda el código en un archivo llamado:
+El código está en el archivo:
 
-`cajero.py`
+`Cajero.py`
+
+El nombre empieza con **C mayúscula**. En Linux y macOS las mayúsculas importan al escribir el nombre del archivo.
 
 ### Paso 3. Ejecutar el programa
 
 Abre una terminal en la carpeta donde está el archivo y escribe:
 
 ```bash
-python cajero.py
+python Cajero.py
 ```
 
 En algunos sistemas debes escribir:
 
 ```bash
-python3 cajero.py
+python3 Cajero.py
 ```
 
 ## Usuarios de prueba
@@ -137,6 +144,9 @@ El programa se divide en estas funciones. Una función es un bloque de código q
 | `retirar(usuario)` | Hace retiros y revisa que haya fondos. |
 | `depositar(usuario)` | Hace depósitos. |
 | `transferir(usuario)` | Maneja las transferencias entre cuentas. |
+| `main()` | Controla el inicio de sesión, el menú principal y la salida del programa. |
+
+El programa solo arranca cuando se ejecuta directamente (`python Cajero.py`), gracias a la línea `if __name__ == "__main__":`. Así, el archivo se puede importar desde otro archivo, por ejemplo para hacer pruebas, sin que se abra el cajero.
 
 Además, el programa usa un diccionario llamado `RegistroUsuarios`, donde guarda los datos de las cuentas.
 
@@ -177,19 +187,30 @@ El sistema revisa los datos para evitar operaciones incorrectas.
 | El número de cuenta no es válido | Pide una cuenta válida. |
 | Transferencia a la propia cuenta | No la permite. |
 | Opción de menú incorrecta | Muestra un mensaje de opción inválida. |
+| Se presiona `Ctrl+C` o se corta la entrada | Cierra el programa con un mensaje de despedida, sin errores. |
 
 ## Ejemplos de uso
 
 ### Iniciar sesión
 
 ```text
-===== AUTENTICACIÓN =====
+===== AUTENTICACION =====
 Bienvenido al cajero automático
 
-Ingresa tu usuario: Algoritmo
+Ingresa tu usuario (o escribe 'salir' para terminar): Algoritmo
 Ingresa tu clave: 1234
 
 Bienvenido Algoritmo
+```
+
+### Salir del programa
+
+```text
+===== AUTENTICACION =====
+Bienvenido al cajero automático
+Ingresa tu usuario (o escribe 'salir' para terminar): salir
+
+Gracias por usar el cajero automático. ¡Hasta luego!
 ```
 
 ### Consultar el saldo

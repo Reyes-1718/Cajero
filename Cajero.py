@@ -2,7 +2,10 @@ def autenticar():
     print("\n===== AUTENTICACION =====")
     print("Bienvenido al cajero automático")
 
-    usuario = input("Ingresa tu usuario: ")
+    usuario = input("Ingresa tu usuario (o escribe 'salir' para terminar): ")
+
+    if usuario.strip().lower() == SALIR:
+        return SALIR
 
     if usuario not in RegistroUsuarios:
         print("Credenciales incorrectas")
@@ -130,7 +133,7 @@ def transferir(usuario):
             case _:
                 print("Opción inválida. Seleccione una opción válida (1-3).")
 
-inicio = False
+SALIR = "salir"
 RegistroUsuarios = {
     "Algoritmo": {"clave": "1234", "saldo": 5000, "cuenta": "123456789", "bloqueado": False},
     "Nathalia": {"clave": "1111", "saldo": 6000, "cuenta": "987654321", "bloqueado": False},
@@ -140,41 +143,49 @@ RegistroUsuarios = {
 }
 
 
-while True:
-    if inicio == False:
+def main():
+    while True:
         usuario = autenticar()
+
+        if usuario == SALIR:
+            print("\nGracias por usar el cajero automático. ¡Hasta luego!")
+            break
 
         if usuario is None:
             continue
 
-        inicio = True
+        while True:
+            print("\n===== Cajero Automático =====")
+            print("Opciones disponibles:")
+            print("1. Consultar saldo")
+            print("2. Retirar dinero")
+            print("3. Depositar dinero")
+            print("4. Transferir a terceros")
+            print("5. Cerrar sesión")
 
-    while True:
-        print("\n===== Cajero Automático =====")
-        print("Opciones disponibles:")
-        print("1. Consultar saldo")
-        print("2. Retirar dinero")
-        print("3. Depositar dinero")
-        print("4. Transferir a terceros")
-        print("5. Cerrar sesión")
-
-        try:
-            opcion = int(input("Ingresa una opción (1-5): "))
-        except ValueError:
-            print("\nOpción inválida. Por favor, seleccione una opción válida (1-5).")
-            continue
-        match opcion:
-            case 1:
-                consultar_saldo(usuario)
-            case 2:
-                retirar(usuario)
-            case 3:
-                depositar(usuario)
-            case 4:
-                transferir(usuario)
-            case 5:
-                print("\nCerrando sesión...")
-                inicio = False
-                break
-            case _:
+            try:
+                opcion = int(input("Ingresa una opción (1-5): "))
+            except ValueError:
                 print("\nOpción inválida. Por favor, seleccione una opción válida (1-5).")
+                continue
+            match opcion:
+                case 1:
+                    consultar_saldo(usuario)
+                case 2:
+                    retirar(usuario)
+                case 3:
+                    depositar(usuario)
+                case 4:
+                    transferir(usuario)
+                case 5:
+                    print("\nCerrando sesión...")
+                    break
+                case _:
+                    print("\nOpción inválida. Por favor, seleccione una opción válida (1-5).")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (KeyboardInterrupt, EOFError):
+        print("\n\nPrograma terminado. ¡Hasta luego!")
