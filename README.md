@@ -170,6 +170,12 @@ Cada usuario tiene cuatro datos:
 - `cuenta`: el número de cuenta.
 - `bloqueado`: indica si la cuenta tiene el acceso bloqueado.
 
+### Diagrama de flujo
+
+El recorrido completo del programa, desde el inicio de sesión hasta la salida, está en el diagrama [`cajero_automatico.mmd`](cajero_automatico.mmd). Haz clic en el nombre para abrirlo.
+
+El archivo está escrito en **Mermaid**, un formato que convierte texto en diagramas. Si al abrirlo solo ves texto, copia su contenido y pégalo en [mermaid.live](https://mermaid.live) para ver el dibujo.
+
 ## Controles de errores
 
 El sistema revisa los datos para evitar operaciones incorrectas.
